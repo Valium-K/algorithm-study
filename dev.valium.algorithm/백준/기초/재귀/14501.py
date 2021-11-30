@@ -1,17 +1,22 @@
 output = 0
 
-def solve(n, schedule, start_day, cur_pay):
+def set_max_pay(total_pay):
     global output
 
-    for cur_day in range(start_day, len(schedule)):
-        next_day = cur_day + schedule[cur_day][0]
+    if total_pay > output:
+        output = total_pay
 
-        if next_day <= n+1 and next_day + schedule[next_day][0] <= n+1:
-            solve(n, schedule, next_day, cur_pay + schedule[cur_day][1])
+def solve(n, schedule, start_day, cur_pay):
+    for cur_day in range(start_day, len(schedule)):
+        target_day = cur_day + schedule[cur_day][0] - 1
+
+        if target_day < len(schedule):
+            if target_day + 1 >= len(schedule):
+                set_max_pay(cur_pay + schedule[cur_day][1])
+            else:
+                solve(n, schedule, target_day + 1, cur_pay + schedule[cur_day][1])
         else:
-            total_pay = cur_pay + schedule[start_day][1]
-            if total_pay > output:
-                output = total_pay
+            set_max_pay(cur_pay)
 
 if __name__ == '__main__':
     n = int(input())
