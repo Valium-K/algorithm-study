@@ -1,21 +1,22 @@
-output = []
-flag = False
+def solve(n, arr):
+    for i in range(n-1, 0, -1):
+        if arr[i-1] < arr[i]:
+            target_index = arr.index(sorted(list(filter(lambda x: x >= 0, map(lambda x: x - arr[i-1], arr[i:]))))[0] + arr[i-1])
 
-def solve(n, arr, depth, target):
-    global output
-    global flag
+            temp = arr[i-1]
+            arr[i-1] = arr[target_index]
+            arr[target_index] = temp
 
-    if depth >= n:
-        print(arr)
-        return
+            for j in arr[:i]:
+                print(j, end=' ')
+            for j in sorted(arr[i:]):
+                print(j, end=' ')
 
-    for i in range(n):
-        if i+1 not in arr:
-            solve(n, arr + [i+1], depth + 1, target)
-
+            return
+    print(-1)
 if __name__ == '__main__':
     n = int(input())
-    arr = [map(int, input().split())]
+    arr = list(map(int, input().split()))
 
-    solve(n, [], 0, arr)
+    solve(n, arr)
 
