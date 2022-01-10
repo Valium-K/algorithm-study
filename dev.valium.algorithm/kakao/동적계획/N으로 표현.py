@@ -1,6 +1,8 @@
 def solution(N, number):
     lst = [set() for _ in range(9)]
     lst[1].add(N)
+    if N == number:
+        return 1
 
     for i in range(2, 9):
         ni = int(str(N) * i)
