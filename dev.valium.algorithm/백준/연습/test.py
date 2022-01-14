@@ -1,0 +1,1 @@
+# Kruskal 알고리즘은 sparse graph에 유리하다. 입력이
