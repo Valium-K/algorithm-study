@@ -1,20 +1,16 @@
-def findParentA(parent, x):
+def findParent(parent, x):
     if parent[x] != x:
-        x = findParentA(parent, parent[x])
+        parent[x] = findParent(parent, parent[x])
     return parent[x]
+
 def unionParent(parent, a, b):
-    a = findParentA(parent, a)
-    b = findParentA(parent, b)
+    a = findParent(parent, a)
+    b = findParent(parent, b)
 
     if a < b:
         parent[b] = a
     else:
         parent[a] = b
-
-def findNSetParent(parent, x):
-    if parent[x] != x:
-        parent[x] = findParentA(parent, parent[x])
-    return parent[x]
 
 def printResult(result):
     print('최소 스패닝 트리:')
@@ -33,14 +29,9 @@ if __name__ == '__main__':
     result = []
     parent = [i for i in range(node + 1)]
     for weight, a, b in graph:
-        # 방법 A
-        if findParentA(parent, a) != findParentA(parent, b):
-            unionParent(parent, a, b)
+        if findParent(parent, a) != findParent(parent, b):
+            # unionParent(parent, a, b)
 
-        # 방법 B
-        # if findNSetParent(parent, a) != findNSetParent(parent, b):
-        #     parent[findNSetParent(parent, a)] = findNSetParent(parent, b)
-
-        result.append((a, b, weight))
+            result.append((a, b, weight))
 
     printResult(result)

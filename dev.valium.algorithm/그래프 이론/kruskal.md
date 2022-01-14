@@ -8,28 +8,21 @@
 
 ## 코드
 ``` python
-# 방법 A =======================
-def findParentA(parent, x):
+def findParent(parent, x):
+    # root 까지 부모를 따라 올라감
     if parent[x] != x:
-        x = findParentA(parent, parent[x])
+        parent[x] = findParent(parent, parent[x])
     return parent[x]
-    
-def unionParent(parent, a, b):
-    a = findParentA(parent, a)
-    b = findParentA(parent, b)
 
+def unionParent(parent, a, b):
+    a = findParent(parent, a)
+    b = findParent(parent, b)
+
+    # node index가 작은 node를 부모로 선택
     if a < b:
         parent[b] = a
     else:
         parent[a] = b
-# =============================  
-
-# 방법 B =======================
-def findNSetParent(parent, x):
-    if parent[x] != x:
-        parent[x] = findParentA(parent, parent[x])
-    return parent[x]
-# =============================
 
 def printResult(result):
     print('최소 스패닝 트리:')
@@ -45,18 +38,13 @@ if __name__ == '__main__':
         graph.append((weight, a, b))
     graph.sort()
 
-    result = []
+    # 초기 parent는 root와 같고 그것은 자기 자신이다.
     parent = [i for i in range(node + 1)]
+    result = []
     for weight, a, b in graph:
-        # 방법 A
-        if findParentA(parent, a) != findParentA(parent, b):
+        if findParent(parent, a) != findParent(parent, b):
             unionParent(parent, a, b)
-            
-        # 방법 B
-        # if findNSetParent(parent, a) != findNSetParent(parent, b):
-        #     parent[findNSetParent(parent, a)] = findNSetParent(parent, b)
+            result.append((a, b, weight))
 
-        result.append((a, b, weight))
-        
     printResult(result)
 ```
